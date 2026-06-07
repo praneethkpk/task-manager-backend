@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import com.praneeth.taskmanager.task.dto.UpdateTaskStatusRequest;
 import com.praneeth.taskmanager.common.exception.TaskNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import com.praneeth.taskmanager.task.dto.CreateTaskRequest;
 import com.praneeth.taskmanager.task.dto.TaskResponse;
@@ -27,18 +30,14 @@ public class TaskServiceImpl
         implements TaskService {
 
     private final TaskRepository taskRepository;
+    private final CurrentUserService currentUserService;
     @Override
     public TaskResponse createTask(
             CreateTaskRequest request
     ) {
 
-        Authentication authentication =
-                SecurityContextHolder
-                        .getContext()
-                        .getAuthentication();
-
         User user =
-                (User) authentication.getPrincipal();
+                currentUserService.getCurrentUser();
 
         Task task = Task.builder()
                 .title(request.title())
@@ -163,5 +162,40 @@ public class TaskServiceImpl
                         )
                 )
                 .toList();
+    }
+
+    @Override
+    public Page<TaskResponse> getMyTasks(
+            int page,
+            int size
+    ) {
+
+        User user =
+                (User) SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal();
+
+        Pageable pageable =
+                PageRequest.of(
+                        page,
+                        size
+                );
+
+        Page<Task> tasks =
+                taskRepository.findByUser(
+                        user,
+                        pageable
+                );
+
+        return tasks.map(task ->
+                new TaskResponse(
+                        task.getId(),
+                        task.getTitle(),
+                        task.getDescription(),
+                        task.getStatus(),
+                        task.getPriority()
+                )
+        );
     }
 }
