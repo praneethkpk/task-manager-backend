@@ -1,5 +1,6 @@
 package com.praneeth.taskmanager.task.dto;
 
+import com.praneeth.taskmanager.task.entity.TaskPriority;
 import com.praneeth.taskmanager.task.entity.TaskStatus;
 
 public record TaskResponse(
@@ -10,7 +11,8 @@ public record TaskResponse(
 
         String description,
 
-        TaskStatus status
+        TaskStatus status,
+        TaskPriority priority
 
 ) {
 }

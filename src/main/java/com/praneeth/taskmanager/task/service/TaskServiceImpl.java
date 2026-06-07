@@ -3,6 +3,7 @@ package com.praneeth.taskmanager.task.service;
 import com.praneeth.taskmanager.task.dto.CreateTaskRequest;
 import com.praneeth.taskmanager.task.dto.TaskResponse;
 import com.praneeth.taskmanager.task.entity.Task;
+import com.praneeth.taskmanager.task.entity.TaskPriority;
 import com.praneeth.taskmanager.task.entity.TaskStatus;
 import com.praneeth.taskmanager.task.repository.TaskRepository;
 import com.praneeth.taskmanager.user.entity.User;
@@ -43,6 +44,11 @@ public class TaskServiceImpl
                 .title(request.title())
                 .description(request.description())
                 .status(TaskStatus.PENDING)
+                .priority(
+                        request.priority() != null
+                                ? request.priority()
+                                : TaskPriority.MEDIUM
+                )
                 .user(user)
                 .build();
 
@@ -53,7 +59,8 @@ public class TaskServiceImpl
                 savedTask.getId(),
                 savedTask.getTitle(),
                 savedTask.getDescription(),
-                savedTask.getStatus()
+                savedTask.getStatus(),
+                savedTask.getPriority()
         );
     }
 
@@ -95,7 +102,8 @@ public class TaskServiceImpl
                 updatedTask.getId(),
                 updatedTask.getTitle(),
                 updatedTask.getDescription(),
-                updatedTask.getStatus()
+                updatedTask.getStatus(),
+                updatedTask.getPriority()
         );
     }
 
@@ -150,7 +158,8 @@ public class TaskServiceImpl
                                 task.getId(),
                                 task.getTitle(),
                                 task.getDescription(),
-                                task.getStatus()
+                                task.getStatus(),
+                                task.getPriority()
                         )
                 )
                 .toList();
