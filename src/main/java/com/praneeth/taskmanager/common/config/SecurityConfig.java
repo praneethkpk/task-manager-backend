@@ -8,6 +8,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import com.praneeth.taskmanager.auth.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.config.Customizer;
 
 @Configuration
 @RequiredArgsConstructor
@@ -20,6 +21,7 @@ public class SecurityConfig {
     ) throws Exception {
 
         http
+                .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
 

@@ -40,4 +40,23 @@ logs/
 # OS files
 .DS_Store
 application.yml
+application-local.yml
 src/main/resources/application.yml
+
+
+# Local secrets
+src/main/resources/application-local.yml
+
+# IntelliJ
+.idea/
+
+# Build files
+target/
+
+# Logs
+logs/
+*.log
+
+# Environment files
+.env
+.env.*

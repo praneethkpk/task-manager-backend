@@ -1,5 +1,6 @@
 package com.praneeth.taskmanager.task.service;
 
+import com.praneeth.taskmanager.auth.service.CurrentUserService;
 import com.praneeth.taskmanager.task.dto.CreateTaskRequest;
 import com.praneeth.taskmanager.task.dto.TaskResponse;
 import com.praneeth.taskmanager.task.entity.Task;
